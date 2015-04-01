@@ -1,0 +1,22 @@
+{
+  "name": "paykoun",
+  "version": "0.0.1",
+  "description": "A worker management library written in node",
+  "main": "lib/paykoun.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edyn/paykoun.git"
+  },
+  "author": "Diallo Bobo <bobo.diaraye@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edyn/paykoun/issues"
+  },
+  "homepage": "https://github.com/edyn/paykoun"
+}
