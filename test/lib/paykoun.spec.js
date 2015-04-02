@@ -12,8 +12,41 @@ chai.use(sinonChai);
 
 var Paykoun = require(paykounPath);
 
-describe('Paykoun', function(){
+var WorkQueueMgr = require('ikue').WorkQueueMgr;
 
-  it('Should run the test', function(){
+describe('Paykoun', function(){
+  var queueMgr;
+
+  beforeEach(function(){
+    queueMgr = new WorkQueueMgr({
+      component: "Comp1"
+    });
+  })
+
+  describe('PaykounContext', function(){
+    
+    it('Should create context correctly', function(){
+      var context = Paykoun.createContext(queueMgr);
+      expect(context.registerWorker).to.exist;
+    });
+
+    it('Running a context should create work queues', function(){
+      var context = Paykoun.createContext(queueMgr);
+      expect(context.registerWorker).to.exist;
+
+      var triggers = ['event5', 'event4', 'event3'];
+      var setWorkQueueSpy = sinon.spy(function(queue){
+        queue.triggers = triggers;
+      });
+
+      context.registerWorker({
+        name: "Worker1",
+        setWorkQueue: setWorkQueueSpy
+      });
+
+      context.run();
+    });
+
+
   });
 });

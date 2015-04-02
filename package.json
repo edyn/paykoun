@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/edyn/paykoun",
   "dependencies": {
+    "lodash": "^3.6.0",
     "merge": "^1.2.0",
     "vasync": "^1.6.3"
   },
