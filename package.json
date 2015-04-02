@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,15 @@
   "bugs": {
     "url": "https://github.com/edyn/paykoun/issues"
   },
-  "homepage": "https://github.com/edyn/paykoun"
+  "homepage": "https://github.com/edyn/paykoun",
+  "dependencies": {
+    "merge": "^1.2.0",
+    "vasync": "^1.6.3"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "mocha": "^2.2.1",
+    "sinon": "^1.14.1",
+    "sinon-chai": "^2.7.0"
+  }
 }
