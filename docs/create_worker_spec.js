@@ -41,10 +41,6 @@ exports = Paykoun.createWorker('UniqueWorkerName', {
     // Do what we are supposed to do
   },
 
-  workSync: function(job){
-
-  },
-
   /**
   * This indicate the context in which we want the worker to run.
   *
