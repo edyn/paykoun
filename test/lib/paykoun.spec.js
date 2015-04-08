@@ -12,7 +12,7 @@ var expect = chai.expect;
 var should = chai.should;
 var sinon = require('sinon');
 var util = require('util');
-var sinonChai = require("sinon-chai");
+var sinonChai = require('sinon-chai');
 var MockMgr = require('./mock/ikue');
 chai.use(sinonChai);
 
@@ -30,20 +30,9 @@ describe('Paykoun', function(){
   })
 
   describe('PaykounContext', function(){
-    
-    var threadLoad;
-    var threadEval;
+
 
     beforeEach(function(){
-      threadLoad = sinon.stub().yields();
-      threadEval = sinon.spy();
-
-      PaykounContext.__set__('Threads', {
-        createPool: sinon.stub().returns({
-          load: threadLoad,
-          eval: threadEval
-        })
-      })
     });
 
     it('Should create context correctly', function(){
@@ -74,9 +63,7 @@ describe('Paykoun', function(){
         var queue1 = queueMgr.queues[0];
 
         expect(queue1.name).to.eql("Worker1");
-        expect(threadLoad).to.have.been.called
-        expect(threadEval).to.have.been.called
-
+        
         done();
       });
 
