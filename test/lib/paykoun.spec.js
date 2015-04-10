@@ -50,12 +50,51 @@ describe('Paykoun', function(){
         this.workQueue = queue;
       });
 
+      var fakeWorkFunc = function(job, done){
+        var util = require('util');
+
+        console.log(util.format("Hello %s", job.data.name));
+      }
+
       context.registerWorker({
         name: "Worker1",
-        setWorkQueue: setWorkQueueSpy
+        setWorkQueue: setWorkQueueSpy,
+        workFunc: function(){
+          return fakeWorkFunc.toString();
+        },
+        threadPool: function(){
+          return {
+            name: "Worker1 Pool",
+            poolSize: 1,
+          };
+        },
+        getTriggers: function(){
+          return ['event1'];
+        }
       });
 
-      context.run();
+      /*context.registerWorker({
+        name: "Worker2",
+        setWorkQueue: setWorkQueueSpy,
+        workFunc: function(){
+          return fakeWorkFunc.toString();
+        },
+        threadPool: function(){
+          return {
+            name: "Worker2 Pool",
+            poolSize: 1,
+          }
+        },
+        getTriggers: function(){
+          return ['event2'];
+        }
+      });*/
+
+      context.run(function(err){
+        if (err) {
+
+        };
+      });
 
       queueMgr.on('ready', function(){
         expect(queueMgr.queues.length).to.eql(1);
@@ -63,9 +102,16 @@ describe('Paykoun', function(){
         var queue1 = queueMgr.queues[0];
 
         expect(queue1.name).to.eql("Worker1");
-        
-        done();
       });
+
+    });
+
+  
+    it('If connecting a queue failed, we should destroy all queues and no thread should be created', function(done){
+
+    });
+
+    it('If creating a thread pool failed, we should destroy all queues and destroy other thread pools', function(done){
 
     });
 

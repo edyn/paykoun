@@ -41,6 +41,8 @@
   "dependencies": {
     "lodash": "^3.6.0",
     "merge": "^1.2.0",
+    "node-uuid": "^1.4.3",
+    "stream-buffers": "^2.1.0",
     "vasync": "^1.6.3",
     "webworker-threads": "^0.5.5"
   },
