@@ -18,37 +18,24 @@ if (!isProducer) {
   var context = Paykoun.createContext(queueMgr);
 
   var fakeWorkFunc = function(data, done){
-    var wait = Math.floor((Math.random() * 100) + 1);
+    //var wait = Math.floor((Math.random() * 100) + 1);
 
-    console.log("Hello", new Date().toString());
+    console.log("Hello ", new Date().toString());
 
-    done(null, null); 
+    done(null, 'bobo'); 
     
     return;
   }
 
-  context.registerWorker({
-    name: "Consumer",
-    setWorkQueue: function(queue){
-      queue.triggers = this.getTriggers();
-      this.workQueue = queue;
-    },
-    workFunc: function(){
-      return fakeWorkFunc.toString();
-    },
-    threadPool: function(){
-      return {
-        name: "Worker1",
-        poolSize: 100,
-      };
-    },
-    timeout: function(){
-      return 10000;
-    },
-    getTriggers: function(){
-      return ['event1'];
-    }
-  });
+  context.registerWorker(Paykoun.createWorker("Worker", {
+    isolationPolicy: 'vasync',
+    concurrency: 1000,
+    triggers: ['event1'],
+    work: fakeWorkFunc,
+    timeout: 2000,
+  }));
+
+  context.setType('vasync')
 
   context.run(function(err){
     console.log(arguments);
@@ -64,10 +51,10 @@ if (!isProducer) {
     workQueue.triggers = ['event2'];
 
     workQueue.on('ready', function(){
-      while(true){
+      setInterval(function() {
         job = workQueue.createJob('event1', {name: "Diallo"});
         job.send();
-      }
+      }, process.env.PRODUCER_INTERVAL || 10000);
     });
   });
 }

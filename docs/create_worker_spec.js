@@ -51,10 +51,13 @@ exports = Paykoun.createWorker('UniqueWorkerName', {
   *
   * One of the important resource is CPU (that we can map to a timeout).
   */
-  isolationPolicy: 'pool', // Can also be 'none' (and 'process' maybe ?)
+  isolationPolicy: 'thread', // Can also be 'none' (and 'process', '' maybe ?),
+
+  // The number of parallele job that can be running concurrently for this worker
+  concurrency: 10,
 
   /**
-  * Needed when using the 'pool isolation policy'. Will default to 'DefaultThreadPool' when not specified}
+  * Needed when using the 'pool isolation policy'. Will default to 'DefaultIsolationGroup' when not specified}
   */
-  poolName: 'ComponentPoolName'
+  isolationGroup: 'DefaultIsolationGroup'
 });
