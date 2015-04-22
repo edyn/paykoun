@@ -20,22 +20,38 @@ if (!isProducer) {
   var fakeWorkFunc = function(data, done){
     //var wait = Math.floor((Math.random() * 100) + 1);
 
-    console.log("Hello ", new Date().toString());
+    console.log("Hello 1");
 
     done(null, 'bobo'); 
     
     return;
   }
 
-  context.registerWorker(Paykoun.createWorker("Worker", {
+  var fakeWorkFunc2 = function(data, done){
+    //var wait = Math.floor((Math.random() * 100) + 1);
+
+    console.log("Hello 2 : "+ data.name);
+
+    done(null, 'bobo'); 
+    
+    return;
+  }
+
+  /*context.registerWorker(Paykoun.createWorker("Worker", {
     isolationPolicy: 'vasync',
     concurrency: 1000,
     triggers: ['event1'],
     work: fakeWorkFunc,
     timeout: 2000,
-  }));
+  }));*/
 
-  context.setType('vasync')
+  context.registerWorker(Paykoun.createWorker("Worker2", {
+    isolationPolicy: 'thread',
+    concurrency: 2,
+    triggers: ['event1'],
+    work: fakeWorkFunc2,
+    timeout: 2000,
+  }));
 
   context.run(function(err){
     console.log(arguments);
