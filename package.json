@@ -40,7 +40,7 @@
   "homepage": "https://github.com/edyn/paykoun",
   "dependencies": {
     "lodash": "^3.6.0",
-    "ikue": "https://github.com/ecstasy2/ikue#paykoun"
+    "ikue": "https://github.com/ecstasy2/ikue#paykoun",
     "merge": "^1.2.0",
     "node-uuid": "^1.4.3",
     "stream-buffers": "^2.1.0",
