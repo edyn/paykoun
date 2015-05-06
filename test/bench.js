@@ -11,7 +11,6 @@ var queueMgr = new WorkQueueMgr({
   name: 'Benchmark'
 });
 
-
 var isProducer = process.env.PRODUCER || false;
 
 if (!isProducer) {
@@ -20,9 +19,11 @@ if (!isProducer) {
   var fakeWorkFunc = function(data, done){
     //var wait = Math.floor((Math.random() * 100) + 1);
 
-    console.log("Hello 1");
+    setTimeout(function(){
+      console.log("Worker 1 : " + data.name);
 
-    done(null, 'bobo'); 
+      done(null, 'bobo'); 
+    }, 5000);
     
     return;
   }
@@ -30,28 +31,30 @@ if (!isProducer) {
   var fakeWorkFunc2 = function(data, done){
     //var wait = Math.floor((Math.random() * 100) + 1);
 
-    console.log("Hello 2 : "+ data.name);
+    console.log("Worker 2 : " + data.name);
 
-    done(null, 'bobo'); 
+    done(null, 'bobo');
     
     return;
   }
 
-  /*context.registerWorker(Paykoun.createWorker("Worker", {
+  context.registerWorker(Paykoun.createWorker("Worker", {
     isolationPolicy: 'vasync',
-    concurrency: 1000,
+    concurrency: 5,
     triggers: ['event1'],
     work: fakeWorkFunc,
     timeout: 2000,
-  }));*/
+  }));
 
   context.registerWorker(Paykoun.createWorker("Worker2", {
     isolationPolicy: 'thread',
-    concurrency: 2,
+    concurrency: 100,
     triggers: ['event1'],
     work: fakeWorkFunc2,
-    timeout: 2000,
+    timeout: 10000,
   }));
+
+  context.useStatsD();
 
   context.run(function(err){
     console.log(arguments);
