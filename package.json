@@ -1,6 +1,6 @@
 {
   "name": "paykoun",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A worker management library written in node",
   "main": "lib/paykoun.js",
   "directories": {
@@ -46,7 +46,8 @@
     "node-uuid": "^1.4.3",
     "stream-buffers": "^2.1.0",
     "vasync": "^1.6.3",
-    "webworker-threads": "^0.5.5"
+    "webworker-threads": "^0.5.5",
+    "browserify": "~10.2.4"
   },
   "devDependencies": {
     "chai": "^2.2.0",
