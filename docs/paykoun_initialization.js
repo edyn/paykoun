@@ -6,7 +6,7 @@
 */
 
 
-var context = Paykoun.createContext(workQueue);
+var context = Paykoun.createContext(workQueueMgr);
 
 var statd = context.statd();
 
@@ -21,13 +21,25 @@ context.statd()
 var workers = Paykoun.gatherWorkers('./workers');
 // workers is an array like [{/* Whatever the structure is*/}]
 
+
+
 context.addWorker(
   Paykoun.createWorker('NameWorker', {
     work: function(job, done){
+      var vasync = require('vasync');
 
+      // We could load the env inside the worker
+      var hello = process.env.VARIABLE
+
+      vasync.something();
+      say(hello),
     }
   })
 );
+
+function addWorker(worker, ){
+
+}
 
 context.addWorkers(workers);
 

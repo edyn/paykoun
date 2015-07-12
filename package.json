@@ -1,13 +1,13 @@
 {
   "name": "paykoun",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "A worker management library written in node",
   "main": "lib/paykoun.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,41 @@
   "bugs": {
     "url": "https://github.com/edyn/paykoun/issues"
   },
-  "homepage": "https://github.com/edyn/paykoun"
+  "eslintConfig": {
+    "globals": {
+      "require": false,
+      "process": true,
+      "module": true,
+      "it": false,
+      "describe": false
+    },
+    "rules": {
+      "quotes": [
+        2,
+        "single"
+      ],
+      "global-strict": [
+        2,
+        "always"
+      ]
+    }
+  },
+  "homepage": "https://github.com/edyn/paykoun",
+  "dependencies": {
+    "ikue": "0.0.3",
+    "lodash": "^3.6.0",
+    "merge": "^1.2.0",
+    "node-statsd": "^0.1.1",
+    "node-uuid": "^1.4.3",
+    "stream-buffers": "^2.1.0",
+    "vasync": "^1.6.3",
+    "webworker-threads": "^0.5.5"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "mocha": "^2.2.1",
+    "rewire": "^2.3.1",
+    "sinon": "^1.14.1",
+    "sinon-chai": "^2.7.0"
+  }
 }
