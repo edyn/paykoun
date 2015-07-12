@@ -1,6 +1,6 @@
 {
   "name": "paykoun",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A worker management library written in node",
   "main": "lib/paykoun.js",
   "directories": {
@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/edyn/paykoun",
   "dependencies": {
-    "ikue": "ecstasy2/ikue#paykoun",
+    "ikue": "0.0.3",
     "lodash": "^3.6.0",
     "merge": "^1.2.0",
     "node-statsd": "^0.1.1",
