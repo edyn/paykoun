@@ -20,16 +20,22 @@ describe('Paykoun Test Context', function(){
   var sayHelloWorker = null;
   var failingWorkerFunc = null;
   var sayHelloSpy = null;
+  var funcSpy = null;
 
   beforeEach(function(done){
     context = Paykoun.createTestContext();
     queue = context.queue();
 
     sayHelloSpy = sinon.spy();
+    funcSpy = sinon.spy();
 
     sayHelloWorker = sinon.spy(function(job, onJobDone){
 
       var $sayHello = this.$getHelper('sayHello');
+
+      var $objectHelper = this.$getHelper('objectHelper');
+
+      $objectHelper.func();
 
       $sayHello(job.name);
 
@@ -37,6 +43,9 @@ describe('Paykoun Test Context', function(){
     });
 
     context.useHelper('sayHello', sayHelloSpy);
+    context.useHelper('objectHelper', {
+      func: funcSpy
+    });
 
     context.registerWorker(Paykoun.createWorker('SayHelloWorker', {
       triggers: ['sayHello'],
@@ -77,9 +86,25 @@ describe('Paykoun Test Context', function(){
 
   });
 
+  // Maybe in the long run we want to stub everything? or provide for a way that avoid
+  // setting non function helpers?
+  it('should only stub function helpers', function(done){
+    queue.pushJob('sayHello', {name: 'Diallo'});
+
+    queue.flush(function(){
+      sayHelloSpy.called.should.equal(true, 'The helper should have been called');
+
+      var helperCall = sayHelloSpy.firstCall;
+      expect(helperCall).to.not.have.thrown();
+      expect(helperCall.args[0]).to.equal('Diallo');
+      done();
+    });
+
+  });
+
   it('should throw an error when trying to use an unregistered helper', function(done){
     context.dontMock('unexistingHelper');
-    
+
     queue.pushJob('sayHello', {name: 'Diallo'});
 
     queue.flush(function(){
