@@ -62,10 +62,12 @@ describe('Paykoun Test Context', function(){
   });
 
   it('should allow us to use a registered helper', function(done){
+    context.dontMock('sayHello');
+
     queue.pushJob('sayHello', {name: 'Diallo'});
 
     queue.flush(function(){
-      assert(sayHelloSpy.called);
+      sayHelloSpy.called.should.equal(true, 'The helper should have been called');
 
       var helperCall = sayHelloSpy.firstCall;
       expect(helperCall).to.not.have.thrown();
@@ -76,6 +78,8 @@ describe('Paykoun Test Context', function(){
   });
 
   it('should throw an error when trying to use an unregistered helper', function(done){
+    context.dontMock('unexistingHelper');
+    
     queue.pushJob('sayHello', {name: 'Diallo'});
 
     queue.flush(function(){
