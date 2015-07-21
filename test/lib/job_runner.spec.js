@@ -55,19 +55,17 @@ function FakeThreadPool(){
       eval: sinon.spy(function(code, callback){
         fakePool.all.evalCallback = sinon.spy(callback);
 
-        process.nextTick(function(){
-          for (var i = 0; i < fakePool.size; i++) {
-            if (fakePool.all.failOnIndex && fakePool.all.failOnIndex == i) {
-              setTimeout(function(){
-                fakePool.all.evalCallback(fakePool.all.error || new Error('FakePool eval error'));
-              }, i*2);
-            } else {
-              setTimeout(function(){
-                fakePool.all.evalCallback(null);
-              }, i*2);
-            }
-          };
-        });
+        for (var i = 0; i < fakePool.size; i++) {
+          if (fakePool.all.failOnIndex && fakePool.all.failOnIndex == i) {
+            setTimeout(function(){
+              fakePool.all.evalCallback(fakePool.all.error || new Error('FakePool eval error'));
+            }, i*2);
+          } else {
+            setTimeout(function(){
+              fakePool.all.evalCallback(null);
+            }, i*2);
+          }
+        };
       }),
     },
     any: {
@@ -75,8 +73,6 @@ function FakeThreadPool(){
     },
     destroy: sinon.spy()
   };
-
-  fakePool.on = sinon.spy();
 
   return fakePool;
 }
@@ -192,6 +188,33 @@ describe('JobRunner', function(){
       }
     });
 
-    it('Creating a JobRunner fail if a thread fail to evaluate the code');
+    it('Creating a JobRunner fail if a thread fail to evaluate the code', function(done){
+      var verify;
+
+      var onDone = sinon.spy(function(err){
+        verify();
+      });
+
+      var createFunc = _.bind(JobRunner.create, 
+        this, {
+          type: 'thread', 
+          concurrency: 4, 
+          name: 'Name'}, onDone);
+
+      fakePool.size = 4;
+      fakePool.all.failOnIndex = 2;
+
+      createFunc();
+
+      function verify(err){
+        expect(fakePool.all.evalCallback, "code should be evaluated in each thread").to.have.been.callCount(4);
+        expect(err).to.not.exist
+        expect(fakePool.destroy).to.have.been.called
+
+        done();
+      }
+    });
+
+
   });
 });
