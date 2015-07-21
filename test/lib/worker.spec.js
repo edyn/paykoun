@@ -62,11 +62,11 @@ describe('PaykounWorker', function(){
 
       var worker = WorkerDef.instantiate();
 
-      assert.deepEqual(worker.getTriggers(), ["trigger_Name"], 'default trigger should be trigger_[WorkerName]');
+      assert.deepEqual(worker.triggers(), ["trigger_Name"], 'default trigger should be trigger_[WorkerName]');
       assert.equal(worker.isolationPolicy(), "vasync", "default isolationPolicy should be \'vasync\'");
       assert.equal(worker.concurrency(), 20, "default concurrency should be \'20\'");
 
-      assert.equal(worker.isolationGroup(), "DefaultIsolationGroup", "default isolationGroup should be \'DefaultIsolationGroup\'");
+      assert.equal(worker.isolationGroup(), "DefaultIsolationGroup:vasync", "default isolationGroup should be \'DefaultIsolationGroup:vasync\'");
 
       assert.equal(worker.name, "Name", "Name of the worker is correctly set");
 
@@ -84,14 +84,14 @@ describe('PaykounWorker', function(){
 
       var worker = WorkerDef.instantiate();
 
-      assert.deepEqual(worker.getTriggers(), ["trigger_Name"], 'default trigger should be trigger_[WorkerName]');
+      assert.deepEqual(worker.triggers(), ["trigger_Name"], 'default trigger should be trigger_[WorkerName]');
       assert.equal(worker.isolationPolicy(), "thread", "default isolationPolicy should be \'vasync\'");
       assert.equal(worker.concurrency(), 20, "default concurrency should be \'20\'");
 
-      assert.equal(worker.isolationGroup(), "DefaultIsolationGroup", "default isolationGroup should be \'DefaultIsolationGroup\'");
+      assert.equal(worker.isolationGroup(), "DefaultIsolationGroup:thread", "default isolationGroup should be \'DefaultIsolationGroup:thread\'");
       assert.equal(worker.name, "Name", "Name of the worker is correctly set");
 
-      assert.deepEqual(worker.threadPool(), {name: "DefaultIsolationGroup", poolSize: 20});
+      assert.deepEqual(worker.threadPool(), {name: "DefaultIsolationGroup:thread", poolSize: 20});
     });
 
   });
