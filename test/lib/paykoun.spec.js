@@ -115,8 +115,46 @@ describe('Paykoun', function(){
 
     });
   
-    it('If connecting a queue failed, we should destroy all queues and no thread should be created');
+    it('If connecting a queue failed, we should destroy all queues and no thread should be created', function(done){
+      
+    });
 
-    it('If creating a thread pool failed, we should destroy all queues and destroy other thread pools');
+    it('If creating a thread pool failed, we should destroy all queues and destroy other thread pools', function(done){
+
+    });
+
+
+    it('Later test', function(done){
+      /*var context = Paykoun.createContext(queueMgr);
+      expect(context.registerWorker).to.exist;
+
+      var triggers = ['event5', 'event4', 'event3'];
+      var setWorkQueueSpy = sinon.spy(function(queue){
+        queue.triggers = triggers;
+        this.workQueue = queue;
+      });
+
+      context.registerWorker({
+        name: "Worker1",
+        setWorkQueue: setWorkQueueSpy
+      });
+
+      context.registerWorker({
+        name: "Worker2",
+        setWorkQueue: setWorkQueueSpy
+      });
+
+      context.run();
+
+      queueMgr.on('ready', function(){
+
+        done();
+      });*/
+
+      done()
+
+    });
+
+
   });
 });
