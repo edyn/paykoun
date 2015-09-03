@@ -94,6 +94,63 @@ describe('JobRunner', function(){
       
       assert.throws(_.bind(JobRunner.create, 
         this, 
+        {type: 'vasync'}),
+        /concurrency/);
+
+      assert.throws(_.bind(JobRunner.create, 
+        this, 
+        {type: 'vasync', concurrency: 12}),
+        /name/);
+
+      assert.throws(_.bind(JobRunner.create, 
+        this, 
+        {type: 'vasync', concurrency: 12, name: 'Name'}),
+        /callback/);
+    });
+
+    it('Creating a JobRunner with invalid "type" fail', function(){
+      var done = sinon.spy();
+
+      assert.throws(_.bind(JobRunner.create, 
+        this, 
+        {type: 'unexisting', concurrency: 1, name: 'Name'}, done));
+
+      assert.doesNotThrow(_.bind(JobRunner.create, 
+        this, 
+        {type: 'vasync', concurrency: 1, name: 'Name'}, done));
+
+      assert.doesNotThrow(_.bind(JobRunner.create, 
+        this, 
+        {type: 'vasync', concurrency: 1, name: 'Name'}, done));
+    });
+  });
+
+  describe.skip('ThreadRunner', function(){
+
+    var FakeThreads
+      , fakePool;
+    beforeEach(function(){
+      fakePool = FakeThreadPool();
+
+      FakeThreads = {
+        createPool: sinon.stub().returns(fakePool)
+      };
+
+
+      JobRunner.__set__('Threads', FakeThreads);
+      JobRunner.__set__('fs', {
+        readFileSync: sinon.stub().returns('var hello;')
+      });
+
+      JobRunner.__set__('browserify', FakeBrowserify);
+    });
+
+    describe('Basics', function(){
+    it('Creating a JobRunner validate the properties', function(){
+      assert.throws(JobRunner.create, /type/);
+      
+      assert.throws(_.bind(JobRunner.create, 
+        this, 
         {type: 'thread'}),
         /concurrency/);
 
@@ -123,27 +180,7 @@ describe('JobRunner', function(){
         this, 
         {type: 'vasync', concurrency: 1, name: 'Name'}, done));
     });
-  })
-
-  describe('ThreadRunner', function(){
-
-    var FakeThreads
-      , fakePool;
-    beforeEach(function(){
-      fakePool = FakeThreadPool();
-
-      FakeThreads = {
-        createPool: sinon.stub().returns(fakePool)
-      };
-
-
-      JobRunner.__set__('Threads', FakeThreads);
-      JobRunner.__set__('fs', {
-        readFileSync: sinon.stub().returns('var hello;')
-      });
-
-      JobRunner.__set__('browserify', FakeBrowserify);
-    });
+  });
 
     it('Creating a JobRunner actually create threads and evaluate browserified code', function(done){
       var verify;

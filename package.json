@@ -44,10 +44,7 @@
     "merge": "^1.2.0",
     "node-statsd": "^0.1.1",
     "node-uuid": "^1.4.3",
-    "stream-buffers": "^2.1.0",
-    "vasync": "^1.6.3",
-    "webworker-threads": "^0.5.5",
-    "browserify": "~10.2.4"
+    "vasync": "^1.6.3"
   },
   "devDependencies": {
     "chai": "^2.2.0",
