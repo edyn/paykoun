@@ -63,7 +63,7 @@ describe('Paykoun Test Context', function(){
     });
 
     context.registerWorker(Paykoun.createWorker('FailingWorker', {
-      triggers: ['sayHello'],
+      triggers: ['failingTrigger'],
       work: failingWorkerFunc
     }));
 
@@ -73,14 +73,14 @@ describe('Paykoun Test Context', function(){
   it('should allow us to use a registered helper', function(done){
     context.dontMock('sayHello');
 
-    queue.pushJob('sayHello', {name: 'Diallo'});
+    queue.pushJob('sayHello', {name: 'Hello world'});
 
     queue.flush(function(){
       sayHelloSpy.called.should.equal(true, 'The helper should have been called');
 
       var helperCall = sayHelloSpy.firstCall;
       expect(helperCall).to.not.have.thrown();
-      expect(helperCall.args[0]).to.equal('Diallo');
+      expect(helperCall.args[0]).to.equal('Hello world');
       done();
     });
 
@@ -89,14 +89,14 @@ describe('Paykoun Test Context', function(){
   // Maybe in the long run we want to stub everything? or provide for a way that avoid
   // setting non function helpers?
   it('should only stub function helpers', function(done){
-    queue.pushJob('sayHello', {name: 'Diallo'});
+    queue.pushJob('sayHello', {name: 'Hello world'});
 
     queue.flush(function(){
       sayHelloSpy.called.should.equal(true, 'The helper should have been called');
 
       var helperCall = sayHelloSpy.firstCall;
       expect(helperCall).to.not.have.thrown();
-      expect(helperCall.args[0]).to.equal('Diallo');
+      expect(helperCall.args[0]).to.equal('Hello world');
       done();
     });
 
@@ -105,7 +105,7 @@ describe('Paykoun Test Context', function(){
   it('should throw an error when trying to use an unregistered helper', function(done){
     context.dontMock('unexistingHelper');
 
-    queue.pushJob('sayHello', {name: 'Diallo'});
+    queue.pushJob('failingTrigger', {name: 'Hello world'});
 
     queue.flush(function(){
       assert(failingWorkerFunc.called);
