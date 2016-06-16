@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/edyn/paykoun.svg?branch=master)](https://travis-ci.org/edyn/paykoun)
+[![Build Status](https://travis-ci.org/edyn/paykoun.svg?branch=develop)](https://travis-ci.org/edyn/paykoun)
 
 
 # paykoun
