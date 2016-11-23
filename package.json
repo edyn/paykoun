@@ -43,7 +43,7 @@
     "lodash": "^3.6.0",
     "merge": "^1.2.0",
     "node-statsd": "^0.1.1",
-    "node-uuid": "^1.4.3",
+    "uuid": "^3.0.0",
     "vasync": "^1.6.3"
   },
   "devDependencies": {
